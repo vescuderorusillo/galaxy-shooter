@@ -296,6 +296,7 @@ GameObject:
   - component: {fileID: 1193660767}
   - component: {fileID: 1193660766}
   - component: {fileID: 1193660768}
+  - component: {fileID: 1193660769}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -380,11 +381,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _laserPrefab: {fileID: 7993080714787089657, guid: 433f1d907ccb4814493990f686198556,
+  _laserPrefab: {fileID: 1398001622508972623, guid: 433f1d907ccb4814493990f686198556,
     type: 3}
   _fireRate: 0.15
   _lives: 3
   _spawnManager: {fileID: 1896848307}
+--- !u!61 &1193660769
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1193660765}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.015107751, y: -0.030216217}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5.12, y: 5.12}
+    newSize: {x: 5.12, y: 5.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.0351217, y: 3.7905111}
+  m_EdgeRadius: 0
 --- !u!1 &1465872723
 GameObject:
   m_ObjectHideFlags: 0
