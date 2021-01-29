@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -51,6 +52,18 @@ public class Player : MonoBehaviour
             _spawnManager?.OnPlayerDeath();
             Destroy(gameObject);
         }
+    }
+
+    public void TripleShotActive()
+    {
+        _isTripleShotActive = true;
+        StartCoroutine(TripleShotPowerDownRoutine());
+    }
+
+    private IEnumerator TripleShotPowerDownRoutine()
+    {
+       yield return new WaitForSeconds(5.0f);
+       _isTripleShotActive = false;
     }
 
     private void CalculateMovement()
