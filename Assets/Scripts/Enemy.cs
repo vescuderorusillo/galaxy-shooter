@@ -5,13 +5,6 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private float _speed = 4f;
 
-    private float _yInitPos = 7f;
-
-    void Start()
-    {
-        transform.position = new Vector3(Random.Range(-11.3f, 11.3f), _yInitPos, 0);
-    }
-
     void Update()
     {
         CalculateMovement();
@@ -37,7 +30,7 @@ public class Enemy : MonoBehaviour
 
         if (transform.position.y <= -5f)
         {
-            transform.position = new Vector3(Random.Range(-8f, 8f), _yInitPos, 0);
+            transform.position = new Vector3(Random.Range(-8f, 8f), 7f, 0);
         }
     }
 

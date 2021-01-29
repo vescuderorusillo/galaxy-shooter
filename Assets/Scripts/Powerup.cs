@@ -5,13 +5,6 @@ public class Powerup : MonoBehaviour
     [SerializeField]
     private float _speed = 3f;
 
-    private float _yInitPos = 7f;
-
-    void Start()
-    {
-        transform.position = new Vector3(Random.Range(-11f, 11f), _yInitPos, 0);
-    }
-
     void Update()
     {
         CalculateMovement();
