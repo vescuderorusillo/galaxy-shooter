@@ -538,8 +538,10 @@ MonoBehaviour:
   _ememyPrefab: {fileID: 6084539135591303026, guid: 6d024cf22b45e034c912f7a71491464c,
     type: 3}
   _ememyContainer: {fileID: 1897855908}
-  _tripleShotPowerupPrefab: {fileID: 5564973169466720851, guid: 5a22e8cba4c485e48afead1b163e1dff,
-    type: 3}
+  powerups:
+  - {fileID: 5564973169466720851, guid: 5a22e8cba4c485e48afead1b163e1dff, type: 3}
+  - {fileID: 3853132286099508034, guid: d1d72116e0b936a42aedd39c9099594d, type: 3}
+  - {fileID: 3853132286099508034, guid: d1d72116e0b936a42aedd39c9099594d, type: 3}
 --- !u!4 &1896848308
 Transform:
   m_ObjectHideFlags: 0

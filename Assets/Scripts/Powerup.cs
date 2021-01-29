@@ -5,6 +5,9 @@ public class Powerup : MonoBehaviour
     [SerializeField]
     private float _speed = 3f;
 
+    [SerializeField] // 0 = TripleShot, 1 = Speed, 2 = Shields
+    private int powerupID;
+
     void Update()
     {
         CalculateMovement();
@@ -24,7 +27,21 @@ public class Powerup : MonoBehaviour
     {
         if (other.tag.Equals("Player"))
         {
-            other.GetComponent<Player>()?.TripleShotActive();
+            var player = other.GetComponent<Player>();
+
+            switch (powerupID)
+            {
+                case 0:
+                    player?.TripleShotActive();
+                    break;
+                case 1:
+                    player?.SpeedActive();
+                    break;
+                case 2:
+                    player?.ShieldActive();
+                    break;
+            }
+
             Destroy(gameObject);
         }
     }
