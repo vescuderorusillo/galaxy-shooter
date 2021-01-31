@@ -24,9 +24,11 @@ public class Player : MonoBehaviour
 
     private SpawnManager _spawnManager;
 
-    [SerializeField]
     private bool _isTripleShotActive;
     private bool _isShieldActive;
+
+    [SerializeField]
+    private GameObject _shield;
 
     void Start()
     {
@@ -49,11 +51,11 @@ public class Player : MonoBehaviour
         if (_isShieldActive)
         {
             _isShieldActive = false;
+            _shield.SetActive(false);
+            return;
         }
-        else
-        {
-            _lives--;
-        }
+
+        _lives--;
 
         if (_lives < 1)
         {
@@ -76,7 +78,8 @@ public class Player : MonoBehaviour
 
     public void ShieldActive()
     {
-        _isTripleShotActive = true;
+        _isShieldActive = true;
+        _shield.SetActive(true);
     }
 
     private IEnumerator PowerDownRoutine(string powerup)
