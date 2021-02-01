@@ -30,10 +30,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _shield;
 
+    [SerializeField]
+    private int _score;
+
+    private UIManager _uiManager;
+
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
     void Update()
@@ -56,6 +62,7 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
+        _uiManager.UpdateLives(_lives);
 
         if (_lives < 1)
         {
@@ -80,6 +87,12 @@ public class Player : MonoBehaviour
     {
         _isShieldActive = true;
         _shield.SetActive(true);
+    }
+
+    public void AddScore(int points)
+    {
+        _score += points;
+        _uiManager.UpdateScore(_score);
     }
 
     private IEnumerator PowerDownRoutine(string powerup)
