@@ -18,6 +18,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private Sprite[] _liveSprites;
+
+    private GameManager _gameManager;
     
     void Start()
     {
@@ -25,6 +27,7 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + 0;
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
     }
 
     public void UpdateScore(int playerScore)
@@ -38,10 +41,16 @@ public class UIManager : MonoBehaviour
 
         if (currentLives == 0)
         {
-            _gameOverText.gameObject.SetActive(true);
-            _restartText.gameObject.SetActive(true);
-            StartCoroutine(GameOverFlickerRoutine());
+            GameOverSequence();
         }
+    }
+
+    private void GameOverSequence()
+    {
+        _gameManager.GameOver();
+        _gameOverText.gameObject.SetActive(true);
+        _restartText.gameObject.SetActive(true);
+        StartCoroutine(GameOverFlickerRoutine());
     }
 
     IEnumerator GameOverFlickerRoutine()
