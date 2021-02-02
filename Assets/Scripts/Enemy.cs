@@ -26,16 +26,16 @@ public class Enemy : MonoBehaviour
         {
             other.GetComponent<Player>()?.Damage();
             _animator.SetTrigger("OnEnemyDeath");
-            _speed = 0.5f;
-            Destroy(gameObject, 2.8f);
+            _speed = 0;
+            Destroy(gameObject, 2.5f);
         }
         else if (other.tag.Equals("Laser"))
         {
             Destroy(other.gameObject);
             _player?.AddScore(Random.Range(5, 12));
             _animator.SetTrigger("OnEnemyDeath");
-            _speed = 0.5f;
-            Destroy(gameObject, 2.8f);
+            _speed = 0;
+            Destroy(gameObject, 2.5f);
         }
     }
 
