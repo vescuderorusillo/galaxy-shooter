@@ -35,6 +35,10 @@ public class Player : MonoBehaviour
 
     private UIManager _uiManager;
 
+    [SerializeField]
+    private GameObject _leftEngine, _rightEngine;
+
+
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
@@ -64,7 +68,13 @@ public class Player : MonoBehaviour
         _lives--;
         _uiManager.UpdateLives(_lives);
 
-        if (_lives < 1)
+        if (_lives == 2)
+        {
+            _leftEngine.SetActive(true);
+        }else if (_lives == 1)
+        {
+            _rightEngine.SetActive(true);
+        }else if (_lives < 1)
         {
             _spawnManager?.OnPlayerDeath();
             Destroy(gameObject);
