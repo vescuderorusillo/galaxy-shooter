@@ -38,12 +38,20 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _leftEngine, _rightEngine;
 
+    [SerializeField]
+    private AudioClip _laserSoundClip;
+
+    private AudioSource _audioSource;
+
 
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _audioSource = GetComponent<AudioSource>();
+
+        _audioSource.clip = _laserSoundClip;
     }
 
     void Update()
@@ -158,5 +166,7 @@ public class Player : MonoBehaviour
             var laserPosition = transform.position + new Vector3(0, _laserOffset, 0);
             Instantiate(_laserPrefab, laserPosition, Quaternion.identity);
         }
+
+        _audioSource.Play();
     }
 }
