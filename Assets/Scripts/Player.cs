@@ -43,13 +43,20 @@ public class Player : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    private GameManager _gameManager;
+
 
     void Start()
     {
-        transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
+        if (!_gameManager.IsMultiPlayerMode())
+        {
+            transform.position = new Vector3(0, 0, 0);
+        }
 
         _audioSource.clip = _laserSoundClip;
     }

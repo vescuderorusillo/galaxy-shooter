@@ -18,9 +18,21 @@ public class Enemy : MonoBehaviour
 
     private float _canFire = -1;
 
+    private GameManager _gameManager;
+
     void Start()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
+        if (_gameManager.IsMultiPlayerMode())
+        {
+            _player = GameObject.Find("Player1").GetComponent<Player>();
+        }
+        else
+        {
+            _player = GameObject.Find("Player").GetComponent<Player>();
+        }
+        
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
     }
