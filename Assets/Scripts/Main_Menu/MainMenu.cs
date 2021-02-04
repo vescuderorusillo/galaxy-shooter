@@ -9,4 +9,14 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void LoadSinglePlayerGame()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void LoadMultiPlayerGame()
+    {
+        SceneManager.LoadScene(2);
+    }
+
 }
