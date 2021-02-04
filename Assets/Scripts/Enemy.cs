@@ -11,6 +11,13 @@ public class Enemy : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    [SerializeField]
+    private GameObject _laserPrefab;
+
+    private float _fireRate = 3.0f;
+
+    private float _canFire = -1;
+
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -21,6 +28,19 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+
+        if (Time.time > _canFire)
+        {
+            _fireRate = Random.Range(2f, 4f);
+            _canFire = Time.time + _fireRate;
+            var enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            var lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+            foreach (var laser in lasers)
+            {
+                laser.AssignEnemyLaser();
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
