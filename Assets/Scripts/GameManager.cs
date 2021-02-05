@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private bool _isMultiPlayerMode;
 
+    [SerializeField]
+    private GameObject _pauseMenu;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R) && _isGameOver)
@@ -20,6 +23,12 @@ public class GameManager : MonoBehaviour
         {
             Application.Quit();
         }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            _pauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
     }
 
     public void GameOver()
@@ -30,5 +39,16 @@ public class GameManager : MonoBehaviour
     public bool IsMultiPlayerMode()
     {
         return _isMultiPlayerMode;
+    }
+
+    public void ResumePlay()
+    {
+        _pauseMenu.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void OpenMainMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 }

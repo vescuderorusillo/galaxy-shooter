@@ -66,4 +66,14 @@ public class UIManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
+
+    public void OnResumeButtonClick()
+    {
+        _gameManager.ResumePlay();
+    }
+
+    public void OnBackToMainMenuButtonClicked()
+    {
+        _gameManager.OpenMainMenu();
+    }
 }
