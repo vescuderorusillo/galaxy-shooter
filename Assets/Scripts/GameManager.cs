@@ -12,6 +12,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject _pauseMenu;
 
+    private Animator _pauseMenuAnimator;
+
+    private void Start()
+    {
+        _pauseMenuAnimator = GameObject.Find("Pause_Menu_Panel").GetComponent<Animator>();
+        _pauseMenuAnimator.updateMode = AnimatorUpdateMode.UnscaledTime;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R) && _isGameOver)
@@ -27,6 +35,7 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             _pauseMenu.SetActive(true);
+            _pauseMenuAnimator.SetBool("isPaused", true);
             Time.timeScale = 0;
         }
     }
@@ -43,6 +52,7 @@ public class GameManager : MonoBehaviour
 
     public void ResumePlay()
     {
+        _pauseMenuAnimator.SetBool("isPaused", false);
         _pauseMenu.SetActive(false);
         Time.timeScale = 1;
     }
