@@ -122,6 +122,7 @@ public class Player : MonoBehaviour
         }else if (_lives < 1)
         {
             _spawnManager?.OnPlayerDeath();
+            _uiManager.CheckForBestScore(_score);
             Destroy(gameObject);
         }
     }
