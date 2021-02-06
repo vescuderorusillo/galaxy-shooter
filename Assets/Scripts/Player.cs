@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 3.5f;
+    private float _speed = 5f;
 
     [SerializeField]
     private GameObject _laserPrefab;
@@ -43,25 +43,62 @@ public class Player : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    private GameManager _gameManager;
+
+    [SerializeField]
+    private bool _isPlayer1 = false;
+
+    private KeyCode fireKeyCode;
+
+    private Animator _animator;
 
     void Start()
     {
-        transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _audioSource = GetComponent<AudioSource>();
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        _animator = GetComponent<Animator>();
+
+        if (!_gameManager.IsMultiPlayerMode())
+        {
+            transform.position = new Vector3(0, 0, 0);
+        }
+
+        if (IsPlayer1())
+        {
+            fireKeyCode = KeyCode.Space;
+        }
+        else
+        {
+            fireKeyCode = KeyCode.Return;
+        }
 
         _audioSource.clip = _laserSoundClip;
     }
 
     void Update()
     {
-        CalculateMovement();
+        if (IsPlayer1())
+        {
+            CalculateMovementPlayerOne();
+            AnimatePlayerOne();
+        }
+        else
+        {
+            CalculateMovementPlayerTwo();
+            AnimatePlayerTwo();
+        }
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _nextFire)
+        if (Input.GetKeyDown(fireKeyCode) && Time.time > _nextFire)
         {
             FireLaser();
         }
+    }
+
+    public bool IsPlayer1()
+    {
+        return _isPlayer1;
     }
 
     public void Damage()
@@ -85,6 +122,7 @@ public class Player : MonoBehaviour
         }else if (_lives < 1)
         {
             _spawnManager?.OnPlayerDeath();
+            _uiManager.CheckForBestScore(_score);
             Destroy(gameObject);
         }
     }
@@ -126,7 +164,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void CalculateMovement()
+    private void CalculateMovementPlayerOne()
     {
         var horizontalInput = Input.GetAxis("Horizontal");
         var verticalInput = Input.GetAxis("Vertical");
@@ -134,6 +172,81 @@ public class Player : MonoBehaviour
 
         transform.Translate(direction * _speed * Time.deltaTime);
 
+        ApplyScreenLimitToPlayerPosition();
+    }
+
+    private void AnimatePlayerOne()
+    {
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            _animator.SetBool("Turn_Left", false);
+            _animator.SetBool("Turn_Right", false);
+        }
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            _animator.SetBool("Turn_Left", false);
+            _animator.SetBool("Turn_Right", false);
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _animator.SetBool("Turn_Left", true);
+            _animator.SetBool("Turn_Right", false);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            _animator.SetBool("Turn_Left", false);
+            _animator.SetBool("Turn_Right", true);
+        }
+    }
+
+    private void AnimatePlayerTwo()
+    {
+        if (Input.GetKeyUp(KeyCode.Keypad4))
+        {
+            _animator.SetBool("Turn_Left", false);
+            _animator.SetBool("Turn_Right", false);
+        }
+        if (Input.GetKeyUp(KeyCode.Keypad6))
+        {
+            _animator.SetBool("Turn_Left", false);
+            _animator.SetBool("Turn_Right", false);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            _animator.SetBool("Turn_Left", true);
+            _animator.SetBool("Turn_Right", false);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad6))
+        {
+            _animator.SetBool("Turn_Left", false);
+            _animator.SetBool("Turn_Right", true);
+        }
+    }
+
+    private void CalculateMovementPlayerTwo()
+    {
+        if (Input.GetKey(KeyCode.Keypad8))
+        {
+            transform.Translate(Vector3.up * _speed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.Keypad5))
+        {
+            transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.Keypad4))
+        {
+            transform.Translate(Vector3.left * _speed * Time.deltaTime);
+        }
+        if (Input.GetKey(KeyCode.Keypad6))
+        {
+            transform.Translate(Vector3.right * _speed * Time.deltaTime);
+        }
+
+        ApplyScreenLimitToPlayerPosition();
+    }
+
+    private void ApplyScreenLimitToPlayerPosition()
+    {
         var yPos = Mathf.Clamp(transform.position.y, -3.8f, 0);
 
         float xPos;

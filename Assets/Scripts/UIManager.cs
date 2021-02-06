@@ -14,17 +14,23 @@ public class UIManager : MonoBehaviour
     private Text _restartText;
 
     [SerializeField]
+    private Text _bestScoreText;
+
+    [SerializeField]
     private Image _livesImg;
 
     [SerializeField]
     private Sprite[] _liveSprites;
 
     private GameManager _gameManager;
+
+    private int _bestScore;
     
     void Start()
     {
-
+        _bestScore = PlayerPrefs.GetInt("HighScore", 0);
         _scoreText.text = "Score: " + 0;
+        _bestScoreText.text = "Best: " + _bestScore;
         _gameOverText.gameObject.SetActive(false);
         _restartText.gameObject.SetActive(false);
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
@@ -35,9 +41,22 @@ public class UIManager : MonoBehaviour
         _scoreText.text = "Score: " + playerScore;
     }
 
+    public void CheckForBestScore(int currentScore)
+    {
+        if (currentScore > _bestScore)
+        {
+            _bestScore = currentScore;
+            PlayerPrefs.SetInt("HighScore", _bestScore);
+            _bestScoreText.text = "Best: " + _bestScore;
+        }
+    }
+
     public void UpdateLives(int currentLives)
     {
-        _livesImg.sprite = _liveSprites[currentLives];
+        if (currentLives >= 0)
+        {
+            _livesImg.sprite = _liveSprites[currentLives];
+        }
 
         if (currentLives == 0)
         {
@@ -62,5 +81,15 @@ public class UIManager : MonoBehaviour
             _gameOverText.text = string.Empty;
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    public void OnResumeButtonClick()
+    {
+        _gameManager.ResumePlay();
+    }
+
+    public void OnBackToMainMenuButtonClicked()
+    {
+        _gameManager.OpenMainMenu();
     }
 }

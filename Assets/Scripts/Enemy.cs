@@ -11,9 +11,26 @@ public class Enemy : MonoBehaviour
 
     private AudioSource _audioSource;
 
+    [SerializeField]
+    private GameObject _laserPrefab;
+
+    private float _canFire = -1;
+
+    private GameManager _gameManager;
+
     void Start()
     {
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+
+        if (_gameManager.IsMultiPlayerMode())
+        {
+            _player = GameObject.Find("Player1").GetComponent<Player>();
+        }
+        else
+        {
+            _player = GameObject.Find("Player").GetComponent<Player>();
+        }
+        
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
     }
@@ -21,6 +38,19 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+
+        if (Time.time > _canFire)
+        {
+            var fireRate = Random.Range(2f, 6f);
+            _canFire = Time.time + fireRate;
+            var enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            var lasers = enemyLaser.GetComponentsInChildren<Laser>();
+
+            foreach (var laser in lasers)
+            {
+                laser.AssignEnemyLaser();
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -32,6 +62,7 @@ public class Enemy : MonoBehaviour
             _speed = 0;
             _audioSource.Play();
 
+            Destroy(GetComponent<Collider2D>());
             Destroy(gameObject, 2.5f);
         }
         else if (other.tag.Equals("Laser"))
@@ -42,6 +73,7 @@ public class Enemy : MonoBehaviour
             _speed = 0;
             _audioSource.Play();
 
+            Destroy(GetComponent<Collider2D>());
             Destroy(gameObject, 2.5f);
         }
     }
